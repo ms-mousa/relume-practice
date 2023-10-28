@@ -81,6 +81,7 @@
     "@hotwired/stimulus-webpack-helpers": "^1.0.1",
     "@hotwired/turbo": "^7.3.0",
     "@syncedstore/core": "^0.6.0",
+    "interactjs": "^1.10.19",
     "luxon": "^3.3.0",
     "mobx": "^6.10.2",
     "posthog-js": "^1.68.4",

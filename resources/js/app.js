@@ -1,4 +1,5 @@
 import '../css/app.css'
+import interact from 'interactjs'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
 import { makeObservable, observable, action, autorun, computed, runInAction } from 'mobx'
@@ -16,69 +17,66 @@ provider.on('status', (event) => {
   console.log(event.status) // logs "connected" or "disconnected"
 })
 const ymap = doc.getMap('document')
-ymap.set('data', { value: 0 })
+ymap.set('data', { location: { x: 0, y: 0 } })
 ymap.set('meta', { user1: {} })
 
-ymap.observe((event) => {
-  console.log('🚀 ~ file: app.js:16 ~ yarray.observe ~ event:', event)
-  console.log(ymap.get('data'))
-  // state.data.text = ymap.get('data').text
-})
-
 class ApplicationState {
-  value
+  location
 
   constructor(ymap) {
     makeObservable(this, {
-      value: observable,
+      location: observable,
       double: computed,
-      increment: action,
+      move: action,
     })
-    this.value = ymap.get('data').value
+    this.location = ymap.get('data').location
   }
 
   get double() {
     return this.value * 2
   }
 
-  increment() {
-    this.value++
-    ymap.set('data', { value: this.value++ })
+  move(position) {
+    this.location = position
+    ymap.set('data', { location: position })
   }
 
   sync() {
-    this.value = ymap.get('data').value
+    this.location = ymap.get('data').location
   }
 }
 
 const state = new ApplicationState(ymap)
 
-// function ontextChange(event) {
-//   console.log('🚀 ~ file: app.js:27 ~ ontextChange ~ event:', event.data)
-
-//   if (event?.data === null) {
-//     ytext.delete(0, 20)
-//   }
-//   ytext.insert(ytext.length, event?.data ?? '', { bold: true })
-// }
-
-// const button = document.getElementById('button')
-// button.onclick = () => {
-//   ytext.insert(0, 'Hello World!')
-// }
-
 const messgeDiv = document.getElementById('message')
 const button = document.getElementById('button')
-button.onclick = () => {
-  state.increment()
-}
-// messgeDiv.oninput = (event) => state.updateText(event.data)
+
 autorun(() => {
-  console.log(state.double, 'DOUBLE')
-  messgeDiv.innerHTML = state.value
+  const draggableCard = document.getElementById('card')
+  draggableCard.style.transform = `translate(${state.location.x}px, ${state.location.y}px)`
 })
+
 ymap.observe(() => {
   runInAction(() => {
     state.sync()
   })
+})
+// const position = ymap.get('data').location
+
+interact('.draggable').draggable({
+  listeners: {
+    start(event) {
+      console.log(event.type, event.target)
+    },
+    move(event) {
+      console.log('STATE', state.location)
+      // console.log('EVENT', position)
+      // position.x += event.dx
+      // position.y += event.dy
+
+      const newLocation = { x: state.location.x + event.dx, y: state.location.y + event.dy }
+      event.target.style.transform = `translate(${newLocation.x}px, ${newLocation.y}px)`
+      state.move(newLocation)
+    },
+  },
 })
