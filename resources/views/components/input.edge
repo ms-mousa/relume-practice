@@ -1,0 +1,8 @@
+<label for="{{label}}">
+    <span class="label-text">
+        {{label}}
+    </span>
+</label>
+<input id="{{name}}" {{autofocus ? 'autofocus' : '' }} {{required ? 'required' : '' }}
+    class="{{type === 'textarea' ? 'textarea textarea-primary textarea-bordered' : 'input input-bordered'}} {{size ?? ''}} {{flashMessages.get('errors') ? 'input-error' :  ''}} input-primary"
+    placeholder="{{placeholder ?? ''}}" name="{{name}}" type="{{type}}" value="{{flashMessages.get(name) ?? ""}}" />

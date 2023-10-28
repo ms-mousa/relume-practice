@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-theme="winter">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    @entryPointScripts('app')
+    <script src="https://unpkg.com/mobx/dist/mobx.umd.production.min.js"></script>
+    @entryPointStyles('app')
+  </head>
+
+  <body>
+    <main class="h-screen w-screen flex flex-col justify-center items-center" data-contoller="edit">
+      <h1 contenteditable="true" id="message" oninput="state.increment()">
+        THIS IS A TITLE THAT IS EDITABLE
+      </h1>
+    </main>
+
+    <script>
+      const { makeObservable, observable, computed, action, autorun } = mobx
+
+      class ApplicationState {
+        value
+        constructor(value) {
+          makeObservable(this, {
+            value: observable,
+            double: computed,
+            increment: action,
+          })
+          this.value = value
+        }
+
+        get double() {
+          return this.value * 2
+        }
+
+        increment() {
+          this.value++
+        }
+      }
+
+      const state = new ApplicationState(0)
+
+      autorun(() => {
+        console.log(state.double, 'DOUBLE')
+      })
+    </script>
+  </body>
+</html>

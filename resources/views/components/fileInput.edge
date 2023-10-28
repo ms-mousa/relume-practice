@@ -1,0 +1,8 @@
+<label for="{{label}}">
+    <span class="label-text">
+        {{label}}
+    </span>
+</label>
+<input id="{{name}}" {{autofocus ? 'autofocus' : '' }} {{required ? 'required' : '' }}
+    class="file-input file-input-bordered file-input-primary file-input-sm {{size ?? ''}} {{flashMessages.get('errors') ? 'input-error' :  ''}} input-primary"
+    placeholder="{{placeholder ?? ''}}" name="{{name}}" type="file" value="{{flashMessages.get(name) ?? ""}}" />

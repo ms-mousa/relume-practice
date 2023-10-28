@@ -1,0 +1,33 @@
+# fly.toml app configuration file generated for pdf-answers on 2023-06-22T22:06:11+10:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "rovn-landing"
+primary_region = "syd"
+
+[[mounts]]
+  source = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+# [deploy]
+#   release_command = "sh ./scripts/migrate.sh"
+
+[env]
+  NODE_ENV="production"
+  DRIVE_DISK="local"
+  SESSION_DRIVER="cookie"
+  CACHE_VIEWS="true"
+  DB_CONNECTION="sqlite"
+  DATABASE_URL="/data/staging.sqlite3"
+  LOCAL_DRIVE_ROOT="/data"
+  GITHUB_REDIRECT_URL="https://pdf-answers.fly.dev/auth/github/callback"
+  GOOGLE_REDIRECT_URL="https://pdf-answers.fly.dev/auth/google/callback"
+
