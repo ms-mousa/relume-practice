@@ -89,6 +89,7 @@
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
     "sqlite3": "^5.1.6",
+    "ts-loader": "^9.5.0",
     "y-websocket": "^1.5.0",
     "yjs": "^13.6.8"
   }

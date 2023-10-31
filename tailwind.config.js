@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['resources/views/**/*.edge'],
+  content: ['resources/views/**/*.edge', 'resources/js/app.js', 'resources/js/utils.ts'],
   daisyui: {
     themes: ['light', 'dark', 'winter'],
   },

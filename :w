@@ -1,0 +1,19 @@
+type InfoType = {
+  content: string
+  locked: boolean
+  position: { x: number; y: number }
+}
+
+export function createCard(info: InfoType) {
+  const cardDiv = document.createElement('div')
+  cardDiv.classList.add('draggable', 'card', 'bg-blue-500', 'p-4', 'text-white')
+  cardDiv.innerText = info.content
+  cardDiv.style.transform = `translate(${info.position.x}px, ${info.position.y}px)`
+  return cardDiv
+}
+
+export function renderCards(info: InfoType, container: HTMLElement) {
+  info.map((i) => {
+    container.append(createCard(i))
+  })
+}
